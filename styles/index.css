@@ -1,3 +1,5 @@
+/* base styles */
+/* estilos base */
 * {
     margin: 0;
     padding: 0;
@@ -27,24 +29,29 @@ main {
     align-items: center;
 }
 
+/* animations */
+/* animaciones */
 @keyframes slideBackground {
-    0% {
-        background-position: 0 0;
+    0% { background-position: 0 0; }
+    25% { background-position: -10px -20px; }
+    50% { background-position: -15px -40px; }
+    75% { background-position: -10px -20px; }
+    100% { background-position: 0 0; }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
     }
-    25% {
-        background-position: -10px -20px;
-    }
-    50% {
-        background-position: -15px -40px;
-    }
-    75% {
-        background-position: -10px -20px;
-    }
-    100% {
-        background-position: 0 0;
+    to {
+        opacity: 1;
+        transform: scale(1);
     }
 }
 
+/* header */
+/* encabezado */
 header {
     padding: 20px 0;
     text-align: center;
@@ -60,17 +67,8 @@ header {
     border-radius: 5px;
 }
 
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: scale(0.9);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
-
+/* form */
+/* formulario */
 .contenedor {
     display: flex;
     justify-content: center;
@@ -137,12 +135,11 @@ button[type="submit"] {
     border: none;
     border-radius: 5px;
     background: linear-gradient(135deg, #4a90e2, #2c3e50);
-    color: white;
-    font-weight: bold;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    cursor: pointer;
+    color: #fff;
     font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    cursor: pointer;
     transition: all 0.3s ease;
     margin-top: 0.5rem;
     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
@@ -161,13 +158,12 @@ button[type="submit"]:hover {
     border: none;
     border-radius: 5px;
     background: linear-gradient(135deg, #2ecc71, #27ae60);
-    color: white;
-    font-weight: bold;
+    color: #fff;
+    font-size: 1rem;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 2px;
     cursor: pointer;
     text-decoration: none;
-    font-size: 1rem;
     transition: all 0.3s ease;
     margin-top: 1rem;
     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
@@ -206,12 +202,16 @@ button[type="submit"]:hover {
     backdrop-filter: blur(5px);
 }
 
+/* footer */
+/* pie de pagina */
 footer {
     background: rgba(0, 0, 0, 0.85);
     backdrop-filter: blur(10px);
     border-top: 1px solid rgba(255, 255, 255, 0.1);
     color: #ffffff;
-    padding: 1.2rem 0;
+    text-align: center;
+    padding: 20px;
+    position: relative;
     overflow: hidden;
 }
 
@@ -220,10 +220,10 @@ footer::before {
     position: absolute;
     top: 0;
     left: -100%;
-    width: 200%;
-    height: 1px;
+    width: 100%;
+    height: 100%;
     background: linear-gradient(
-        90deg,
+        120deg,
         transparent,
         rgba(255, 255, 255, 0.3),
         transparent

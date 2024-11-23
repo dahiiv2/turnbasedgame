@@ -1,14 +1,15 @@
 <?php
 session_start();
 
-/* If user is already logged in, redirect to game
+/* if user is already logged in, redirect to game
 if (isset($_SESSION['user_id'])) {
     header("Location: game.php");
     exit();
 }
 */
 
-// Handle error messages
+// handle error messages
+// manejo de mensajes de error
 $error_message = '';
 if (isset($_GET['error'])) {
     switch ($_GET['error']) {

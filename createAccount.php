@@ -1,8 +1,11 @@
 <?php
+/* initialization */
+/* inicializacion */
 session_start();
 require_once 'utils/password_validation.php';
 
-// Database connection
+/* database setup */
+/* configuracion de base de datos */
 $host = 'localhost';
 $dbname = 'dwes';
 $username = 'root';
@@ -15,12 +18,15 @@ try {
     die("Connection failed: " . $e->getMessage());
 }
 
+/* account creation logic */
+/* logica de crear cuenta */
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = $_POST['username'] ?? '';
     $password = $_POST['password'] ?? '';
     $confirm_password = $_POST['confirm_password'] ?? '';
     
-    // Validate input
+    // input validation
+    // validacion de datos
     if (empty($username) || empty($password) || empty($confirm_password)) {
         header("Location: createAccount.php?error=1"); // Empty fields
         exit();
@@ -36,7 +42,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit();
     }
 
-    // Validate password complexity
     try {
         validatePassword($password);
     } catch (InvalidPasswordException $e) {
@@ -44,7 +49,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit();
     }
 
-    // Check if username already exists
+    // check username availability
+    // comprobar disponibilidad de nombre de usuario
     $stmt = $pdo->prepare("SELECT COUNT(*) FROM cuentas WHERE usuario = ?");
     $stmt->execute([$username]);
     if ($stmt->fetchColumn() > 0) {
@@ -52,13 +58,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit();
     }
 
-    // Create account
+    // save account
+    // guardar cuenta
     try {
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
         $stmt = $pdo->prepare("INSERT INTO cuentas (usuario, contrasenya) VALUES (?, ?)");
         $stmt->execute([$username, $hashed_password]);
         
-        // Auto-login after account creation
+        // auto-login after account creation
         //$_SESSION['user_id'] = $pdo->lastInsertId();
         $_SESSION['username'] = $username;
         header("Location: game.php");
@@ -68,7 +75,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit();
     }
 } else {
-    // Handle error messages
+    /* error handling, grabs from the get */
+    /* manejo de errores, obtiene del get */
     $error_message = '';
     if (isset($_GET['error'])) {
         switch ($_GET['error']) {

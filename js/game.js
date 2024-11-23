@@ -1,21 +1,20 @@
-// Importing attacks from the module
+/* imports and setup */
+/* importaciones y configuracion */
 import attacks from './attacks.js';
 
-// Default background image setup
+/* game initialization */
+/* inicializacion del juego */
 const backgroundImage = new Image();
-backgroundImage.src = 'background.png';
+backgroundImage.src = '/turnbasedgame/img/background.png';
 
-// Attach functions to window to make them globally accessible (needed for button onclick handlers in HTML)
-window.startGame = startGame;
-window.playerAttack = playerAttack;
+let animationFrameId;
 
-// DOM element references for UI sections
-const homeScreen = document.querySelector('.home-screen');
 const gameScreen = document.querySelector('.game-screen');
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 
-// Game state variables
+/* game state variables */
+/* variables de estado del juego */
 let playerTurn = true;
 let playerHP = 100;
 let enemyHP = 100;
@@ -24,11 +23,9 @@ let playerCritChance = 0.15; // Base crit chance
 let playerAccuracy = 0.85; // Base accuracy (1 - miss chance)
 let focusBuffTurns = 0; // Number of turns left for Focus buff
 
-// Smooth health bar variables (for health bar animations)
 let smoothPlayerHP = 100;
 let smoothEnemyHP = 100;
 
-// Damage indicator object (used for showing damage numbers on the screen)
 let damageIndicator = {
   x: 100,
   y: 400,
@@ -37,31 +34,21 @@ let damageIndicator = {
   color: 'black'
 };
 
-// Initialize game after DOM content is fully loaded
-// Shows the home screen initially
+/* game initialization */
+/* inicializacion del juego */
 document.addEventListener('DOMContentLoaded', () => {
-  initializeGame();
+  function animate() {
+    animationFrameId = requestAnimationFrame(animate);
+    updateUI();
+  }
+  animate();
+  resetGame();
 });
 
-// Function to initialize the game UI
-function initializeGame() {
-  homeScreen.style.display = 'block';
-  gameScreen.style.display = 'none';
-  // Draw the background once it loads
-  backgroundImage.onload = function () {
-    ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
-  };
-}
+window.playerAttack = playerAttack;
 
-// Function to start the game when 'Start Game' button is pressed
-function startGame() {
-  homeScreen.style.display = 'none';
-  gameScreen.style.display = 'block';
-  ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
-  updateUI(); // Update the UI once the game starts
-}
-
-// Function to handle player attacks
+/* combat system */
+/* sistema de combate */
 function playerAttack(ability) {
   if (!isPlayerActionAllowed) return; // Prevent action if player is not allowed to attack
 
@@ -115,7 +102,8 @@ function playerAttack(ability) {
   updateTurn(); // Update turn (switch to enemy)
 }
 
-// Function to handle enemy attacks
+/* enemy actions */
+/* acciones del enemigo */
 function enemyAttack() {
   let damage = Math.floor(Math.random() * 10) + 5;
   addToChatLog(`Enemy attacked and dealt ${damage} damage!`, 'enemy');
@@ -139,7 +127,8 @@ function enemyAttack() {
   }
 }
 
-// Function to update the turn logic
+/* turn management */
+/* gestion de turnos */
 function updateTurn() {
   if (playerHP <= 0 || enemyHP <= 0) {
     checkWinCondition(); // Check if the game is over
@@ -159,7 +148,8 @@ function updateTurn() {
   }
 }
 
-// Function to show damage indicators on the screen
+/* visual effects */
+/* efectos visuales */
 function showDamage(x, y, value, attackName = '', color = 'black') {
   damageIndicator.x = x;
   damageIndicator.y = y;
@@ -178,7 +168,8 @@ function showDamage(x, y, value, attackName = '', color = 'black') {
   }, 10);
 }
 
-// Function to update the UI elements on the canvas
+/* ui updates */
+/* actualizaciones de interfaz */
 function updateUI() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height); // Redraw background
@@ -220,7 +211,8 @@ function updateUI() {
   }
 }
 
-// Function to animate the health bar smoothly
+/* animations */
+/* animaciones */
 function animateHealthBar() {
   let playerDiff = playerHP - smoothPlayerHP;
   let enemyDiff = enemyHP - smoothEnemyHP;
@@ -239,24 +231,29 @@ function animateHealthBar() {
   }
 }
 
-// Function to check win conditions
+/* game state management */
+/* gestion del estado del juego */
 function checkWinCondition() {
   if (playerHP <= 0 || enemyHP <= 0) {
     updateUI(); // Ensure the final UI is shown
   }
 } 
 
-// Function to reset the game state
 function resetGame() {
   playerHP = 100;
   enemyHP = 100;
+  smoothPlayerHP = 100;
+  smoothEnemyHP = 100;
   playerTurn = true;
   isPlayerActionAllowed = true;
-  homeScreen.style.display = 'block';
-  gameScreen.style.display = 'none';
+  playerCritChance = 0.15;
+  playerAccuracy = 0.85;
+  focusBuffTurns = 0;
+  damageIndicator.visible = false;
 }
 
-// Function to add messages to the chat log
+/* logging */
+/* registro */
 function addToChatLog(message, type = 'player') {
   const logContainer = document.getElementById('log-container');
   const logMessage = document.createElement('div');
