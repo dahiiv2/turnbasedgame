@@ -1,0 +1,72 @@
+/* Navigation Menu / Menu de navegación */
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600&display=swap');
+
+.game-nav {
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.95), rgba(20, 66, 114, 0.95), rgba(0, 0, 0, 0.95));
+    padding: 20px 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    box-shadow: 0 2px 15px rgba(0, 150, 255, 0.2);
+    border-bottom: 2px solid rgba(0, 150, 255, 0.3);
+}
+
+.nav-menu {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    height: 50px;
+}
+
+.nav-item {
+    margin: 0 35px;
+}
+
+.nav-link {
+    color: #fff;
+    text-decoration: none;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 600;
+    font-size: 22px;
+    padding: 10px 25px;
+    letter-spacing: 1.5px;
+    transition: all 0.3s ease;
+    text-shadow: 0 0 10px rgba(0, 150, 255, 0.3);
+    text-transform: uppercase;
+}
+
+.nav-link:hover {
+    color: #00ffff;
+    text-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+    transform: scale(1.05);
+}
+
+.sign-out-btn {
+    position: absolute;
+    top: 50%;
+    left: 30px;
+    transform: translateY(-50%);
+    background: rgba(220, 20, 60, 0.8);
+    color: white;
+    text-decoration: none;
+    padding: 8px 20px;
+    border-radius: 4px;
+    font-family: 'Chakra Petch', sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    text-shadow: 0 0 10px rgba(220, 20, 60, 0.3);
+    box-shadow: 0 0 15px rgba(220, 20, 60, 0.3);
+}
+
+.sign-out-btn:hover {
+    background: rgba(220, 20, 60, 0.9);
+    box-shadow: 0 0 20px rgba(220, 20, 60, 0.5);
+    transform: translateY(-50%) scale(1.05);
+}

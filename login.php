@@ -34,8 +34,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // start session and redirect
             // iniciar sesion y redirigir
             $_SESSION['user_id'] = $user['id'];
-            $_SESSION['username'] = $user['usuario'];
-            header("Location: game.php");
+            $_SESSION['username'] = $username;
+            header("Location: characters.php");
             exit();
         } else {
             // invalid credentials

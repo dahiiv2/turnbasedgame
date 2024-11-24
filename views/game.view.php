@@ -1,12 +1,14 @@
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="/turnbasedgame/styles/general.css">
-  <link rel="stylesheet" href="/turnbasedgame/styles/game.css">
-  <title>Juego</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/turnbasedgame/styles/general.css">
+    <link rel="stylesheet" href="/turnbasedgame/styles/navigation.css">
+    <link rel="stylesheet" href="/turnbasedgame/styles/game.css">
+    <title>Juego</title>
 </head>
 <body>
+    <?php include 'partials/nav-menu.php'; ?>
     <div class="game-screen">
         <div class="game-container">
             <div class="canvas-container">
