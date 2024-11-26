@@ -1,4 +1,4 @@
-import { Move, AttackMove, BuffMove, Buff } from './Move.js';
+import { Move, AttackMove, Buff } from './Move.js';
 
 export class Character {
   constructor(name, maxHP, critChance = 0.15, accuracy = 0.85, moves = [], critDamage = 1.5) {

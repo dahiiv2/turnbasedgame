@@ -4,13 +4,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/turnbasedgame/styles/general.css">
     <link rel="stylesheet" href="/turnbasedgame/styles/navigation.css">
+    <link rel="stylesheet" href="/turnbasedgame/styles/background.css">
     <link rel="stylesheet" href="/turnbasedgame/styles/game.css">
     <title>Juego</title>
 </head>
 <body>
     <?php include 'partials/nav-menu.php'; ?>
     <div class="game-screen">
-        <div class="game-container">
+        <div class="game-container glass-container">
             <div class="canvas-container">
                 <canvas id="gameCanvas" width="800" height="600"></canvas>
                 <div class="attack-buttons">
@@ -20,7 +21,7 @@
                 </div>
             </div>
         </div>
-        <div class="chat-log">
+        <div class="chat-log glass-container">
             <div id="log-container"></div>
         </div>
     </div>

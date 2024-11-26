@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Strike - Log In</title>
     <link rel="stylesheet" href="styles/general.css">
+    <link rel="stylesheet" href="styles/background.css">
     <link rel="stylesheet" href="styles/index.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
 </head>
@@ -13,7 +14,7 @@
         <img src="img/logo.png" alt="Strike Logo" class="logo">
     </header>
     <main class="contenedor">
-        <div class="form">
+        <div class="form glass-container">
             <h2>Log in</h2>
             <?php if (!empty($error_message)): ?>
                 <div class="error-message"><?php echo htmlspecialchars($error_message); ?></div>
