@@ -1,0 +1,246 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+.characters-screen {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding-top: 200px;
+    box-sizing: border-box;
+}
+
+.selected-character-banner {
+    position: fixed;
+    top: 60px;
+    left: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px 20px;
+    z-index: 10;
+    box-sizing: border-box;
+    max-height: 150px;
+    overflow: auto;
+}
+
+.selected-character-details {
+    display: flex;
+    align-items: center;
+    width: auto;
+    max-width: 40%;
+}
+
+.selected-character-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    margin-right: 15px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+}
+
+.selected-character-info {
+    color: white;
+}
+
+.selected-character-info h2 {
+    margin: 0 0 5px 0;
+    font-size: 1.2em;
+}
+
+.selected-character-stats {
+    display: flex;
+    gap: 15px;
+    font-size: 0.9em;
+}
+
+.selected-character-moves {
+    display: flex;
+    flex-direction: column;
+    max-width: 50%;
+    width: auto;
+}
+
+.move-details {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.move-name {
+    font-weight: bold;
+    color: white;
+    margin-bottom: 5px;
+}
+
+.move-stats {
+    font-size: 0.8em;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 5px;
+}
+
+.move-description {
+    font-size: 0.8em;
+    color: rgba(255, 255, 255, 0.6);
+    font-style: italic;
+}
+
+.character-selection-container {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 20px;
+    margin-top: 20px;
+}
+
+.character-selection-container h1 {
+    color: white;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.characters-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    width: 100%;
+    max-width: 1400px;
+}
+
+.character-card {
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    padding: 20px;
+    backdrop-filter: blur(10px);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease;
+}
+
+.character-card:hover {
+    transform: scale(1.05);
+}
+
+.character-header h2 {
+    text-align: center;
+    color: white;
+    margin-bottom: 15px;
+}
+
+.character-stats {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.stat {
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: white;
+}
+
+.character-moves {
+    flex-grow: 1;
+    margin-bottom: 15px;
+}
+
+.character-moves h3 {
+    color: white;
+    margin-bottom: 10px;
+}
+
+.character-moves ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.character-moves li {
+    background-color: rgba(255, 255, 255, 0.1);
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.move-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+}
+
+.move-name {
+    font-weight: bold;
+    color: white;
+}
+
+.move-damage {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.move-description {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.8em;
+    font-style: italic;
+}
+
+.select-character-btn {
+    width: 100%;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.select-character-btn:hover {
+    background-color: #45a049;
+}
+
+/* Move header styles */
+.move-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.move-type {
+    font-size: 0.8em;
+    color: rgba(255, 255, 255, 0.6);
+    text-transform: uppercase;
+}
+
+.move-stats {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.stat-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.stat-label {
+    font-size: 0.7em;
+    color: rgba(255, 255, 255, 0.5);
+    margin-bottom: 3px;
+}
+
+.stat-value {
+    font-weight: bold;
+    color: white;
+}
