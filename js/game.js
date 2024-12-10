@@ -5,7 +5,7 @@ import attacks from './attacks.js';
 /* game initialization */
 /* inicializacion del juego */
 const backgroundImage = new Image();
-backgroundImage.src = '/turnbasedgame/img/background.png';
+backgroundImage.src = 'img/background.png';
 
 let animationFrameId;
 

@@ -19,7 +19,7 @@
             <a href="stats.php" class="nav-link">Stats</a>
         </li>
         <li class="nav-item">
-            <a href="#account" class="nav-link">Account</a>
+            <a href="account.php" class="nav-link">Account</a>
         </li>
     </ul>
 </nav>

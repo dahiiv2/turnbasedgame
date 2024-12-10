@@ -2,10 +2,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/turnbasedgame/styles/general.css">
-    <link rel="stylesheet" href="/turnbasedgame/styles/navigation.css">
-    <link rel="stylesheet" href="/turnbasedgame/styles/background.css">
-    <link rel="stylesheet" href="/turnbasedgame/styles/game.css">
+    <link rel="stylesheet" href="styles/general.css">
+    <link rel="stylesheet" href="styles/navigation.css">
+    <link rel="stylesheet" href="styles/background.css">
+    <link rel="stylesheet" href="styles/game.css">
     <title>Juego</title>
 </head>
 <body>
