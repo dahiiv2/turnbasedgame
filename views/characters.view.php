@@ -53,38 +53,6 @@
                         </div>
                     </div>
                 </div>
-                <div class="selected-character-moves">
-                    <h3>Moves</h3>
-                    <?php foreach ($selected_character['moves'] as $move): ?>
-                        <div class="move-details">
-                            <div class="move-header">
-                                <span class="move-name"><?php echo htmlspecialchars($move['move_name']); ?></span>
-                                <?php if (!empty($move['move_type'])): ?>
-                                <span class="move-type"><?php echo htmlspecialchars($move['move_type']); ?></span>
-                                <?php endif; ?>
-                            </div>
-                            <div class="move-stats">
-                                <div class="stat-group">
-                                    <span class="stat-label">Base Damage:</span>
-                                    <span class="stat-value"><?php echo $move['base_damage']; ?></span>
-                                </div>
-                                <div class="stat-group">
-                                    <span class="stat-label">Damage Variance:</span>
-                                    <span class="stat-value">±<?php echo $move['damage_variance']; ?></span>
-                                </div>
-                                <?php if (!empty($move['special_effect']) && $move['special_effect'] !== 'None'): ?>
-                                <div class="stat-group">
-                                    <span class="stat-label">Special Effect:</span>
-                                    <span class="stat-value"><?php echo htmlspecialchars($move['special_effect']); ?></span>
-                                </div>
-                                <?php endif; ?>
-                            </div>
-                            <div class="move-description">
-                                <?php echo htmlspecialchars($move['move_description'] ?? 'No description available'); ?>
-                            </div>
-                        </div>
-                    <?php endforeach; ?>
-                </div>
             </div>
         <?php endif; ?>
 
