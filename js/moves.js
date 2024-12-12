@@ -1,11 +1,14 @@
-// Move effects
+// Special move effects
+// Efectos de ataques especiales
 const MoveEffects = {
     // Basic attack - no special effect
+    // Ataque normal - ningun efecto
     none: (attacker, defender, damage) => {
         return { damage };
     },
 
     // Multiple hits (Bladestorm)
+    // Varios ataques
     multipleHits: (attacker, defender, damage) => {
         const hits = Math.floor(Math.random() * 2) + 2; // 2-3 hits
         const totalDamage = damage * hits;
@@ -16,6 +19,7 @@ const MoveEffects = {
     },
 
     // Increase crit chance (Focus)
+    // Aumenta el prob crit
     increaseCritChance: (attacker, defender, damage) => {
         attacker.critChance += 0.2;
         return {
@@ -26,6 +30,7 @@ const MoveEffects = {
     },
 
     // Poison effect (Poison Strike)
+    // Veneno
     poison: (attacker, defender, damage) => {
         defender.poisoned = true;
         defender.poisonDamage = Math.floor(damage * 0.3);
@@ -36,7 +41,6 @@ const MoveEffects = {
         };
     },
 
-    // Arcane Barrier
     arcaneBarrier: (attacker, defender, damage) => {
         attacker.barrier = true;
         attacker.barrierStrength = 30;
@@ -47,7 +51,6 @@ const MoveEffects = {
         };
     },
 
-    // Blood Frenzy
     bloodFrenzy: (attacker, defender, damage) => {
         attacker.damageMultiplier = (attacker.damageMultiplier || 1) * 1.5;
         return {
@@ -59,6 +62,7 @@ const MoveEffects = {
 };
 
 // Map move names to their effects
+// Mapeando cada nombre a su efecto
 const MoveEffectMap = {
     'Slash': MoveEffects.none,
     'Bladestorm': MoveEffects.multipleHits,

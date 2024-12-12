@@ -1,24 +1,30 @@
+//Import the get character function and the move effects
+//Importamos la funcion para obtener el personaje elegido y los ataques
 import { getSelectedCharacter } from './characters.js';
 import { MoveEffectMap } from './moves.js';
 
 // Get the canvas and context
+// Obtenemos canvas y contexto
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 
 // Load background image
+// Cargamos imagen de fondo
 const background = new Image();
 background.src = "img/background.png";
 
 // Game state
+// Estados de partida
 let isPlayerTurn = true;
 let gameOver = false;
-let turnEffects = []; // Store active effects
 
-// Track game stats
+// Game stats
+// Estadisticas
 let totalDamageDealt = 0;
 let highestHit = 0;
 
 // Create enemy (red triangle)
+// Creación enemigo (triangulo rojo)
 const enemy = {
     x: canvas.width - 200,
     y: canvas.height - 450,
@@ -32,13 +38,22 @@ const enemy = {
     barrierStrength: 0
 };
 
-// Player character
+// Player character array
+// Definimos el array del jugador
 let player = null;
 
-// Load player character
+// Load player
+// Cargar jugador
+// Función asincrona ya que no queremos que pause el contenido
 async function loadPlayer() {
+    //await ya que es asincrona
+    //await since its asynchronous
     player = await getSelectedCharacter();
+    //si se ha encontrado el jugador
+    //if player is found
     if (player) {
+        //player info
+        //info del jugador
         player.x = 100;
         player.y = canvas.height - 150;
         player.radius = 50;
@@ -52,36 +67,48 @@ async function loadPlayer() {
     }
 }
 
-// Handle player attack
+// Player attack
+// Ataque jugador
 function playerAttack(moveName) {
-    if (!isPlayerTurn || gameOver) return;
+    // si no es el turno del jugador o si se ha acabado la partida
+    // if its not the player turn or the game is over
+    if (!isPlayerTurn || gameOver) {
+        return;
+    };
 
     const move = player.moves.find(m => m.move_name.toLowerCase().replace(/\s/g, '') === moveName);
     if (move) {
-        // Calculate base damage
+        // base damage
+        // daño base
         let damage = parseInt(move.base_damage);
         
-        // Apply damage multiplier if it exists
+        // check for damage multiplier
+        // comprobamos multiplicador de daño
         if (player.damageMultiplier) {
             damage = Math.floor(damage * player.damageMultiplier);
         }
 
-        // Apply move effect if it exists
+        // check for move effect
+        // comprobamos si hay efecto especial
         const effect = MoveEffectMap[move.move_name];
         if (effect) {
             const result = effect(player, enemy, damage);
             damage = result.damage;
 
-            // Add effect message to log if there is one
+            // show effect message in log
+            // mostramos mensaje de efecto en el log
             if (result.message) {
                 addToLog(result.message, result.buff ? 'player' : 'enemy');
             }
         }
 
-        // Apply damage
+        // apply the damage
+        // aplicamos el daño
         if (damage > 0) {
-            // Check for enemy barrier
+            // check enemy barrier
+            // miramos si el enemigo tiene barrera
             if (enemy.barrier && enemy.barrierStrength > 0) {
+                //mates
                 const absorbed = Math.min(enemy.barrierStrength, damage);
                 damage -= absorbed;
                 enemy.barrierStrength -= absorbed;
@@ -92,27 +119,32 @@ function playerAttack(moveName) {
                 }
             }
 
-            // Track damage stats
+            enemy.hp -= damage;
+            // update damage stats
+            // actualizamos la el daño
             totalDamageDealt += damage;
-            highestHit = Math.max(highestHit, damage);
+            if (damage > highestHit) highestHit = damage;
 
             enemy.hp -= damage;
             addToLog(`${player.name} used ${move.move_name}!`, 'player');
             addToLog(`Enemy took ${damage} damage!`, 'player');
         }
 
-        // Show damage text
+        // show damage numbers
+        // mostrar daño
         if (damage > 0) {
             showDamageText(damage, enemy.x, enemy.y - 20);
         }
 
-        // Check if enemy is defeated
+        // check if enemy has less than 0 health
+        // comprobar si enemigo tiene -0 de vida
         if (enemy.hp <= 0) {
             enemy.hp = 0;
             gameOver = true;
             addToLog('Enemy was defeated!', 'player');
             
             // Store game end stats in session
+            // Guardar las stats en la sesión
             fetch('game_end.php', {
                 method: 'POST',
                 headers: {
@@ -126,16 +158,19 @@ function playerAttack(moveName) {
                 })
             });
         } else {
-            // Switch turns
+            // change turns
+            // cambio de turnos
             isPlayerTurn = false;
             setTimeout(enemyTurn, 1000);
         }
     }
 }
 
-// Process turn effects
+// Process effects
+// Procesar efectos
 function processTurnEffects() {
-    // Process poison
+    // check poison effects
+    // comprobar efectos de veneno
     if (enemy.poisoned) {
         const poisonDamage = enemy.poisonDamage;
         enemy.hp -= poisonDamage;
@@ -159,17 +194,21 @@ function processTurnEffects() {
     }
 }
 
-// Enemy turn
+// Enemy turn function
+// Función de turno enemigo
 function enemyTurn() {
     if (gameOver) return;
 
-    // Process effects at start of turn
+    // process start of turn effects
+    // procesar efectos de inicio de turno
     processTurnEffects();
 
-    // Simple enemy attack
+    // basic enemy attack
+    // ataque básico enemigo
     const damage = 10;
     
-    // Check for player barrier
+    // check player barrier
+    // comprobar la barrera jugador
     let finalDamage = damage;
     if (player.barrier && player.barrierStrength > 0) {
         const absorbed = Math.min(player.barrierStrength, damage);
@@ -186,46 +225,40 @@ function enemyTurn() {
     addToLog('Enemy attacks!', 'enemy');
     addToLog(`${player.name} took ${finalDamage} damage!`, 'enemy');
 
-    // Show damage text
+    // show damage numbers
+    // mostrar números de daño
     showDamageText(finalDamage, player.x, player.y - 20);
 
-    // Check if player is defeated
+    // check if player died
+    // comprobar si jugador esta muerto
     if (player.currentHp <= 0) {
         player.currentHp = 0;
         gameOver = true;
         addToLog(`${player.name} was defeated!`, 'enemy');
-        
-        // Store game end stats in session
-        fetch('game_end.php', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            body: new URLSearchParams({
-                'character': player.name,
-                'damage': totalDamageDealt,
-                'is_kill': '0',
-                'highest_hit': highestHit
-            })
-        });
+        // redirect to end screen with 0 stats since we lost
+        // redirigir a pantalla final con stats a 0 ya que perdimos
+        window.location.href = 'game_end.php?damage=0&highest=0';
     }
 
-    // Switch turns back to player
+    // back to player turn
+    // volver a turno jugador
     isPlayerTurn = true;
 }
 
-// Add message to chat log
-function addToLog(message, turnType = 'neutral') {  // turnType can be 'player', 'enemy', or 'neutral'
+// Add message to battle log
+// Añadir mensaje al chat de batalla
+function addToLog(message, turnType = 'neutral') {
     const logContainer = document.getElementById('log-container');
     const messageElement = document.createElement('div');
     messageElement.className = `log-message ${turnType}-turn`;
     messageElement.textContent = message;
     logContainer.appendChild(messageElement);
-    // Auto scroll to bottom
+    // scroll
     logContainer.scrollTop = logContainer.scrollHeight;
 }
 
-// Show damage text
+// Show damage numbers on screen
+// Mostrar números de daño en pantalla
 function showDamageText(damage, x, y) {
     ctx.fillStyle = 'white';
     ctx.font = '20px Arial';
@@ -233,36 +266,42 @@ function showDamageText(damage, x, y) {
 }
 
 // Draw health bars
+// Dibujar barras de vida
 function drawHealthBar(x, y, currentHp, maxHp, width = 100) {
     const height = 10;
     const healthPercentage = currentHp / maxHp;
 
-    // Background with outline
+    // draw background with outline
+    // dibujar fondo con borde
     ctx.strokeStyle = 'black';
     ctx.lineWidth = 2;
     ctx.fillStyle = '#333';
     ctx.fillRect(x - width/2, y, width, height);
     ctx.strokeRect(x - width/2, y, width, height);
 
-    // Health with outline
+    // draw health with outline
+    // dibujar vida con borde
     ctx.fillStyle = healthPercentage > 0.5 ? 'green' : healthPercentage > 0.25 ? 'yellow' : 'red';
     ctx.fillRect(x - width/2, y, width * healthPercentage, height);
     ctx.strokeRect(x - width/2, y, width * healthPercentage, height);
 }
 
-// Draw everything
+// Draw everything on canvas
+// Dibujar todo en el canvas
 function draw() {
-    // Clear canvas
+    // clear previous frame
+    // limpiar frame anterior
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Draw background
+    // draw background
+    // dibujar fondo
     if (background.complete) {
         ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
     }
 
-    // Draw player if loaded
+    // draw player
+    // dibujar jugador
     if (player) {
-        // Player circle with outline
         ctx.strokeStyle = 'black';
         ctx.lineWidth = 3;
         ctx.fillStyle = player.character_color;
@@ -271,11 +310,13 @@ function draw() {
         ctx.fill();
         ctx.stroke();
         
-        // Draw player health bar
+        // draw player health
+        // dibujar vida jugador
         drawHealthBar(player.x, player.y - 70, player.currentHp, player.max_hp);
     }
 
-    // Draw enemy triangle with outline
+    // draw enemy triangle
+    // dibujar triángulo enemigo
     ctx.strokeStyle = 'black';
     ctx.lineWidth = 3;
     ctx.fillStyle = 'red';
@@ -287,15 +328,18 @@ function draw() {
     ctx.fill();
     ctx.stroke();
 
-    // Draw enemy health bar
+    // draw enemy health
+    // dibujar vida del enemigo
     drawHealthBar(enemy.x, enemy.y - 20, enemy.hp, enemy.maxHp);
 
-    // Draw turn indicator
+    // draw turn indicator
+    // dibujar el indicador de turno
     ctx.fillStyle = 'white';
     ctx.font = '24px Arial';
     ctx.fillText(isPlayerTurn ? 'Your Turn' : 'Enemy Turn', canvas.width/2 - 50, 30);
 
-    // Draw game over
+    // draw game over text
+    // dibujar texto game over
     if (gameOver) {
         ctx.fillStyle = 'white';
         ctx.font = '48px Arial';
@@ -304,15 +348,18 @@ function draw() {
 }
 
 // Animation loop
+// Bucle de animación
 function gameLoop() {
     draw();
     requestAnimationFrame(gameLoop);
 }
 
-// Make playerAttack available globally
+// Make attack function global for buttons
+// Hacer función de ataque global para botones
 window.playerAttack = playerAttack;
 
-// Start the game when everything is loaded
+// Start game when loaded
+// Empezar juego cuando cargue
 window.addEventListener('load', async () => {
     await loadPlayer();
     gameLoop();

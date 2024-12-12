@@ -1,22 +1,19 @@
 <?php
 /* account controller
- * controlador de cuenta
- */
+controlador de cuenta */
 
 session_start();
 require_once 'utils/password_validation.php';
 
 /* check if user is logged in
- * comprobar si el usuario ha iniciado sesión
- */
+comprobar si el usuario ha iniciado sesión */
 if (!isset($_SESSION['user_id'])) {
     header("Location: index.php");
     exit();
 }
 
 /* database setup
- * configuracion de base de datos
- */
+configuracion de base de datos */
 $host = 'localhost';
 $dbname = 'dwes';
 $username = 'root';
@@ -29,15 +26,13 @@ try {
 }
 
 /* fetch user data including profile picture
- * obtener datos del usuario incluyendo foto de perfil
- */
+obtener datos del usuario incluyendo foto de perfil */
 $stmt = $pdo->prepare("SELECT * FROM cuentas WHERE id = ?");
 $stmt->execute([$_SESSION['user_id']]);
 $user = $stmt->fetch();
 
 /* handle profile picture upload
- * manejar subida de foto de perfil
- */
+manejar subida de foto de perfil */
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['upload_picture'])) {
     if (isset($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] === UPLOAD_ERR_OK) {
         $fileTmpPath = $_FILES['profile_picture']['tmp_name'];
@@ -137,8 +132,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_account'])) {
 }
 
 /* error handling
- * manejo de errores
- */
+manejo de errores por GET */
+
 $error_message = '';
 $success_message = '';
 
