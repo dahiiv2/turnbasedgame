@@ -344,6 +344,15 @@ function draw() {
         // draw player health
         // dibujar vida jugador
         drawHealthBar(player.x, player.y - 70, player.currentHp, player.max_hp);
+        
+        // draw barrier if active
+        // dibujar barrera si hay
+        if (player.barrier && player.barrierStrength > 0) {
+            ctx.fillStyle = '#4287f5'; // Light blue color for barrier
+            ctx.font = '16px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText(`Shield: ${player.barrierStrength}`, player.x, player.y - 90);
+        }
     }
 
     // draw enemy triangle
@@ -362,6 +371,15 @@ function draw() {
     // draw enemy health
     // dibujar vida del enemigo
     drawHealthBar(enemy.x, enemy.y - 20, enemy.hp, enemy.maxHp);
+    
+    // draw barrier if active
+    // dibujar barrera si hay
+    if (enemy.barrier && enemy.barrierStrength > 0) {
+        ctx.fillStyle = '#4287f5'; // Light blue color for barrier
+        ctx.font = '16px Arial';
+        ctx.textAlign = 'center';
+        ctx.fillText(`Shield: ${enemy.barrierStrength}`, enemy.x, enemy.y - 40);
+    }
 
     // draw turn indicator
     // dibujar el indicador de turno
