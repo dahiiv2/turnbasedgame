@@ -5,7 +5,6 @@
 
 session_start();
 
-// Check for AJAX request to get selected character
 if (isset($_GET['get_selected_character'])) {
     header('Content-Type: application/json');
     

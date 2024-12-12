@@ -69,6 +69,7 @@ if (isset($_SESSION['selected_character_id'])) {
             </div>
         </div>
     </div>
+
     <script type="module" src="js/game.js"></script>
     <script type="module" src="js/characters.js"></script>
     <script type="module" src="js/attacks.js"></script>
