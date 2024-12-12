@@ -26,6 +26,7 @@ if (isset($_SESSION['selected_character_id'])) {
     <link rel="stylesheet" href="styles/navigation.css">
     <link rel="stylesheet" href="styles/background.css">
     <link rel="stylesheet" href="styles/game.css">
+    <link rel="stylesheet" href="styles/footer.css">
     <title>Juego</title>
 </head>
 <body>
@@ -73,5 +74,6 @@ if (isset($_SESSION['selected_character_id'])) {
     <script type="module" src="js/game.js"></script>
     <script type="module" src="js/characters.js"></script>
     <script type="module" src="js/attacks.js"></script>
+    <?php include 'partials/footer.php'; ?>
 </body>
 </html>

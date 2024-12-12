@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="styles/general.css">
     <link rel="stylesheet" href="styles/background.css">
     <link rel="stylesheet" href="styles/index.css">
+    <link rel="stylesheet" href="styles/navigation.css">
+    <link rel="stylesheet" href="styles/footer.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -31,8 +33,6 @@
             </form>
         </div>
     </main>
-    <footer>
-        <p>&copy; 2024 Strike. All rights reserved.</p>
-    </footer>
+    <?php include 'partials/footer.php'; ?>
 </body>
 </html>

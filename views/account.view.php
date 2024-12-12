@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles/general.css">
     <link rel="stylesheet" href="styles/navigation.css">
+    <link rel="stylesheet" href="styles/footer.css">   
     <link rel="stylesheet" href="styles/background.css">
     <link rel="stylesheet" href="styles/account.css">
     <title>Strike - Account</title>
@@ -82,5 +83,7 @@
             </form>
         </div>
     </div>
+
+    <?php include 'partials/footer.php'; ?>
 </body>
 </html>

@@ -1,0 +1,41 @@
+/* Footer styles / Estilos del pie de página */
+.footer {
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.95), rgba(20, 66, 114, 0.95), rgba(0, 0, 0, 0.95));
+    padding: 20px 0;
+    position: relative;
+    margin-top: auto;
+    width: 100%;
+    box-shadow: 0 -2px 15px rgba(0, 150, 255, 0.2);
+    border-top: 2px solid rgba(0, 150, 255, 0.3);
+}
+
+.footer .row {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.footer h5 {
+    color: #fff;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 600;
+    font-size: 22px;
+    letter-spacing: 1.5px;
+    text-shadow: 0 0 10px rgba(0, 150, 255, 0.3);
+    margin-bottom: 10px;
+}
+
+.footer p {
+    color: #fff;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 16px;
+    text-shadow: 0 0 10px rgba(0, 150, 255, 0.3);
+    margin: 0;
+}
+
+.footer small {
+    color: #00ffff;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 14px;
+    text-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+}

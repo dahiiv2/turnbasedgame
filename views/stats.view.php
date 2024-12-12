@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="styles/general.css">
     <link rel="stylesheet" href="styles/navigation.css">
     <link rel="stylesheet" href="styles/stats.css">
+    <link rel="stylesheet" href="styles/footer.css">
 </head>
 <body>
     <?php include 'partials/nav-menu.php'; ?>
@@ -41,5 +42,6 @@
             </div>
         </div>
     </main>
+    <?php include 'partials/footer.php'; ?>
 </body>
 </html>

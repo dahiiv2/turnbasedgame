@@ -35,7 +35,8 @@ const enemy = {
     barrier: false,
     poisonDamage: 0,
     poisonTurns: 0,
-    barrierStrength: 0
+    barrierStrength: 0,
+    displayedHp: 0
 };
 
 // Player character array
@@ -58,6 +59,7 @@ async function loadPlayer() {
         player.y = canvas.height - 150;
         player.radius = 50;
         player.currentHp = player.max_hp;
+        player.displayedHp = player.max_hp;
         player.poisoned = false;
         player.poisonDamage = 0;
         player.poisonTurns = 0;
@@ -119,7 +121,6 @@ function playerAttack(moveName) {
                 }
             }
 
-            enemy.hp -= damage;
             // update damage stats
             // actualizamos la el daño
             totalDamageDealt += damage;
@@ -238,11 +239,13 @@ function enemyTurn() {
         // redirect to end screen with 0 stats since we lost
         // redirigir a pantalla final con stats a 0 ya que perdimos
         window.location.href = 'game_end.php?damage=0&highest=0';
+    } else {
+        // add extra delay before player can act again
+        // añadir retraso extra antes de que el jugador pueda actuar
+        setTimeout(() => {
+            isPlayerTurn = true;
+        }, 500);
     }
-
-    // back to player turn
-    // volver a turno jugador
-    isPlayerTurn = true;
 }
 
 // Add message to battle log
@@ -269,6 +272,27 @@ function showDamageText(damage, x, y) {
 // Dibujar barras de vida
 function drawHealthBar(x, y, currentHp, maxHp, width = 100) {
     const height = 10;
+    
+    // if this is the enemy's health bar, use smooth transition
+    // si esta es la vida del enemigo, transicion limpia
+    //bajando cada 0.5
+    if (currentHp === enemy.hp) {
+        if (!enemy.displayedHp) enemy.displayedHp = enemy.hp;
+        if (enemy.displayedHp > enemy.hp) {
+            enemy.displayedHp = Math.max(enemy.hp, enemy.displayedHp - 0.5);
+        }
+        currentHp = enemy.displayedHp;
+    }
+    // if this is the player's health bar, use smooth transition
+    // si esta es la vida del jugador, transicion limpia
+    //bajando cada 0.5
+    else if (currentHp === player.currentHp) {
+        if (player.displayedHp > player.currentHp) {
+            player.displayedHp = Math.max(player.currentHp, player.displayedHp - 0.5);
+        }
+        currentHp = player.displayedHp;
+    }
+    
     const healthPercentage = currentHp / maxHp;
 
     // draw background with outline
@@ -284,6 +308,13 @@ function drawHealthBar(x, y, currentHp, maxHp, width = 100) {
     ctx.fillStyle = healthPercentage > 0.5 ? 'green' : healthPercentage > 0.25 ? 'yellow' : 'red';
     ctx.fillRect(x - width/2, y, width * healthPercentage, height);
     ctx.strokeRect(x - width/2, y, width * healthPercentage, height);
+
+    // draw health numbers above bar
+    // dibujar numeros de vida
+    ctx.fillStyle = 'white';
+    ctx.font = '16px Arial';
+    ctx.textAlign = 'center';
+    ctx.fillText(`${Math.round(currentHp)}/${maxHp}`, x, y - 5);
 }
 
 // Draw everything on canvas

@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="styles/navigation.css">
     <link rel="stylesheet" href="styles/background.css">
     <link rel="stylesheet" href="styles/characters.css">
+    <link rel="stylesheet" href="styles/footer.css">
     <title>Strike - Character Selection</title>
 </head>
 <body>
@@ -128,6 +129,8 @@
             </div>
         </div>
     </div>
+
+    <?php include 'partials/footer.php'; ?>
 
     <script type="module" src="js/characters.js"></script>
 </body>
