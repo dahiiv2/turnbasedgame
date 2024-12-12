@@ -14,6 +14,10 @@ let isPlayerTurn = true;
 let gameOver = false;
 let turnEffects = []; // Store active effects
 
+// Track game stats
+let totalDamageDealt = 0;
+let highestHit = 0;
+
 // Create enemy (red triangle)
 const enemy = {
     x: canvas.width - 200,
@@ -88,6 +92,10 @@ function playerAttack(moveName) {
                 }
             }
 
+            // Track damage stats
+            totalDamageDealt += damage;
+            highestHit = Math.max(highestHit, damage);
+
             enemy.hp -= damage;
             addToLog(`${player.name} used ${move.move_name}!`, 'player');
             addToLog(`Enemy took ${damage} damage!`, 'player');
@@ -103,6 +111,20 @@ function playerAttack(moveName) {
             enemy.hp = 0;
             gameOver = true;
             addToLog('Enemy was defeated!', 'player');
+            
+            // Store game end stats in session
+            fetch('game_end.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: new URLSearchParams({
+                    'character': player.name,
+                    'damage': totalDamageDealt,
+                    'is_kill': '1',
+                    'highest_hit': highestHit
+                })
+            });
         } else {
             // Switch turns
             isPlayerTurn = false;
@@ -172,6 +194,20 @@ function enemyTurn() {
         player.currentHp = 0;
         gameOver = true;
         addToLog(`${player.name} was defeated!`, 'enemy');
+        
+        // Store game end stats in session
+        fetch('game_end.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: new URLSearchParams({
+                'character': player.name,
+                'damage': totalDamageDealt,
+                'is_kill': '0',
+                'highest_hit': highestHit
+            })
+        });
     }
 
     // Switch turns back to player
