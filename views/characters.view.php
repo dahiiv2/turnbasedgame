@@ -15,10 +15,8 @@
     
     <div class="characters-screen">
         <?php 
-        // Ensure characters array is not null
         $characters = $characters ?? [];
 
-        // Ensure selected character is handled safely
         $selected_character = isset($_SESSION['selected_character_name']) ? 
             [
                 'name' => $_SESSION['selected_character_name'], 
@@ -30,7 +28,6 @@
             ] : 
             null; 
 
-        // If a character is selected, find its full details
         if ($selected_character) {
             foreach ($characters as $character) {
                 if ($character['name'] === $selected_character['name']) {

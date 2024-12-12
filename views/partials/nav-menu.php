@@ -13,7 +13,7 @@
             <a href="game.php" class="nav-link">Singleplayer</a>
         </li>
         <li class="nav-item">
-            <a href="#pvp" class="nav-link">PVP</a>
+            <a href="modify.php" class="nav-link">Modify</a>
         </li>
         <li class="nav-item">
             <a href="stats.php" class="nav-link">Stats</a>

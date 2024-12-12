@@ -1,0 +1,86 @@
+.glass-container {
+    width: 100%;
+    min-height: 100vh;
+    padding: 20px;
+    margin: 0;
+    margin-top: 80px;
+    box-sizing: border-box;
+    background: rgba(255, 255, 255, 0.1);
+    position: relative;
+    left: 0;
+}
+
+.characters-grid {
+    display: flex;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    gap: 20px;
+}
+
+.character-card {
+    background: #2a2a2a;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border: 2px solid transparent;
+    flex: 1;
+}
+
+.character-card h2 {
+    color: var(--text-color);
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.stat-group {
+    margin-bottom: 15px;
+}
+
+.stat-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: var(--text-color);
+}
+
+.stat-group input {
+    width: 100%;
+    padding: 8px;
+    background: #1a1a1a;
+    border: 1px solid #3a3a3a;
+    border-radius: 5px;
+    color: var(--text-color);
+}
+
+.modify-btn {
+    width: 100%;
+    padding: 10px;
+    background: #3498db;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 15px;
+}
+
+.modify-btn:hover {
+    background: #2980b9;
+}
+
+.error-message {
+    background-color: #ffcccc;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.success-message {
+    background-color: #ccffcc;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+footer {
+    padding-top: 20px;
+}

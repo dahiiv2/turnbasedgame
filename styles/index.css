@@ -1,5 +1,3 @@
-/* base styles */
-/* estilos base */
 * {
     margin: 0;
     padding: 0;
@@ -29,8 +27,6 @@ main {
     align-items: center;
 }
 
-/* animations */
-/* animaciones */
 @keyframes slideBackground {
     0% { background-position: 0 0; }
     25% { background-position: -10px -20px; }
@@ -50,8 +46,6 @@ main {
     }
 }
 
-/* header */
-/* encabezado */
 header {
     padding: 20px 0;
     text-align: center;
@@ -67,8 +61,6 @@ header {
     border-radius: 5px;
 }
 
-/* form */
-/* formulario */
 .contenedor {
     display: flex;
     justify-content: center;
@@ -202,8 +194,6 @@ button[type="submit"]:hover {
     backdrop-filter: blur(5px);
 }
 
-/* footer */
-/* pie de pagina */
 footer {
     background: rgba(0, 0, 0, 0.85);
     backdrop-filter: blur(10px);

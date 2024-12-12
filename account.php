@@ -1,6 +1,15 @@
 <?php
-/* account controller
-controlador de cuenta */
+// account controller
+// controlador de cuenta
+
+//Import PHPMailer classes into the global namespace
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+
+require 'PHPMailer/src/Exception.php';
+require 'PHPMailer/src/PHPMailer.php';
+require 'PHPMailer/src/SMTP.php';
 
 session_start();
 require_once 'utils/password_validation.php';
@@ -31,41 +40,24 @@ $stmt = $pdo->prepare("SELECT * FROM cuentas WHERE id = ?");
 $stmt->execute([$_SESSION['user_id']]);
 $user = $stmt->fetch();
 
-/* handle profile picture upload
-manejar subida de foto de perfil */
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['upload_picture'])) {
-    if (isset($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] === UPLOAD_ERR_OK) {
-        $fileTmpPath = $_FILES['profile_picture']['tmp_name'];
-        $fileType = $_FILES['profile_picture']['type'];
-        $fileSize = $_FILES['profile_picture']['size'];
-        
-        // Validate file type and size
-        // Validar tipo y tamaño de archivo
-        $allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
-        if (!in_array($fileType, $allowedTypes)) {
-            header("Location: account.php?error=6"); // Invalid file type
-            exit();
-        }
-        
-        if ($fileSize > 2 * 1024 * 1024) { // 2MB limit
-            header("Location: account.php?error=7"); // File too large
-            exit();
-        }
-
-        try {
-            $imageData = file_get_contents($fileTmpPath);
-            $stmt = $pdo->prepare("UPDATE cuentas SET imagen = ? WHERE id = ?");
-            $stmt->execute([$imageData, $_SESSION['user_id']]);
-            header("Location: account.php?success=2"); // Picture uploaded
-            exit();
-        } catch(PDOException $e) {
-            header("Location: account.php?error=4"); // Database error
-            exit();
-        }
-    } else {
-        header("Location: account.php?error=8"); // Upload error
+/* handle profile picture upload */
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['upload_picture']) && isset($_FILES['profile_picture'])) {
+    $file = $_FILES['profile_picture'];
+    
+    if ($file['size'] > 2 * 1024 * 1024) { 
+        header("Location: account.php?error=7");
         exit();
     }
+
+    try {
+        $imageData = file_get_contents($file['tmp_name']);
+        $stmt = $pdo->prepare("UPDATE cuentas SET imagen = ? WHERE id = ?");
+        $stmt->execute([$imageData, $_SESSION['user_id']]);
+        header("Location: account.php?success=2");
+    } catch(PDOException $e) {
+        header("Location: account.php?error=4");
+    }
+    exit();
 }
 
 /* handle password change
@@ -104,13 +96,49 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['change_password'])) {
         $hashed_password = password_hash($new_password, PASSWORD_DEFAULT);
         $stmt = $pdo->prepare("UPDATE cuentas SET contrasenya = ? WHERE id = ?");
         $stmt->execute([$hashed_password, $_SESSION['user_id']]);
-        header("Location: account.php?success=1"); // Password updated
+
+        $mail = new PHPMailer(true);
+
+        try {
+            $mail->isSMTP();
+            $mail->Host = gethostbyname('smtp.gmail.com');
+            $mail->SMTPAuth = true;
+            $mail->Username = 'phpdahii@gmail.com';
+            $mail->Password = 'gyjf dbvm mpgc mwdb';
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+            $mail->Port = 587;
+            $mail->SMTPDebug = 0;
+            $mail->SMTPOptions = [
+                'ssl' => [
+                    'verify_peer' => false,
+                    'verify_peer_name' => false,
+                    'allow_self_signed' => true,
+                ]
+            ];
+
+            $mail->setFrom('phpdahii@gmail.com');
+            $mail->addAddress('phpdahii@gmail.com');
+            $mail->addReplyTo('phpdahii@gmail.com');
+
+            $mail->isHTML(true);
+            $mail->Subject = 'Password Change';
+            $mail->Body = "
+                <h2>Password Change Notification</h2>
+                <p>Your password was successfully changed on: 2024-12-12 19:28:43</p>
+            ";
+
+            $mail->send();
+        } catch (Exception $e) {
+            error_log("Failed to send email: {$mail->ErrorInfo}");
+        }
+
+        header("Location: account.php?success=1"); 
         exit();
     } catch(InvalidPasswordException $e) {
         header("Location: account.php?error=5&message=" . urlencode($e->getMessage()));
         exit();
     } catch(PDOException $e) {
-        header("Location: account.php?error=4"); // Database error
+        header("Location: account.php?error=4"); 
         exit();
     }
 }

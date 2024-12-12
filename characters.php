@@ -1,7 +1,7 @@
 <?php
-/* characters controller
- * controlador de personajes
- */
+// characters controller
+// controlador de personajes
+
 
 session_start();
 

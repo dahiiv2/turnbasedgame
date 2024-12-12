@@ -28,8 +28,8 @@ let highestHit = 0;
 const enemy = {
     x: canvas.width - 200,
     y: canvas.height - 450,
-    hp: 100,
-    maxHp: 100,
+    hp: 150,
+    maxHp: 150,
     name: 'Enemy',
     poisoned: false,
     barrier: false,
@@ -147,10 +147,13 @@ function playerAttack(moveName) {
             // Store game end stats in session
             // Guardar las stats en la sesión
             fetch('game_end.php', {
+                //se envia por post
                 method: 'POST',
+                //enviamos por url encode (si no explota)
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
                 },
+                //enviamos la info en un array asociativo
                 body: new URLSearchParams({
                     'character': player.name,
                     'damage': totalDamageDealt,
@@ -236,9 +239,6 @@ function enemyTurn() {
         player.currentHp = 0;
         gameOver = true;
         addToLog(`${player.name} was defeated!`, 'enemy');
-        // redirect to end screen with 0 stats since we lost
-        // redirigir a pantalla final con stats a 0 ya que perdimos
-        window.location.href = 'game_end.php?damage=0&highest=0';
     } else {
         // add extra delay before player can act again
         // añadir retraso extra antes de que el jugador pueda actuar

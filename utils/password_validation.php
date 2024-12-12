@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/../exceptions/InvalidPasswordException.php';
 
+//funcion para validar contraseña
 function validatePassword($password) {
     if (strlen($password) < 6) {
         throw new InvalidPasswordException("Password must be at least 6 characters long.");
